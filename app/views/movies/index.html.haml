@@ -5,7 +5,7 @@
   Include:
   - @all_ratings.each do |rating|
     = rating
-    = check_box_tag "ratings[#{rating}]"
+    = check_box_tag "ratings[#{rating}]", "check", @checked_rating.include?(rating) ? true : false
   = submit_tag 'Refresh'
 
 %table#movies.table.table-striped.col-md-12

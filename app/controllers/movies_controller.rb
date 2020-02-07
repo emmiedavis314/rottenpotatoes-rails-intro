@@ -12,22 +12,32 @@ class MoviesController < ApplicationController
 
   def index
     puts params[:sort]
+    @all_ratings = ["G", "PG", "PG-13", "R"]
+    if (params[:ratings])  
+      @checked_rating = params[:ratings].keys
+    else
+      @checked_rating = @all_ratings
+    end
     if (params[:sort] == 'movies')
-      @movies = Movie.order(:title)
+      @movies = Movie.where(rating: @checked_rating).order(:title)
       @movie_sort = 'hilite'
     elsif (params[:sort] == 'date')
-      @movies = Movie.order(:release_date)
+      @movies = Movie.where(rating: @checked_rating).order(:release_date)
       @date_sort = 'hilite'
     else
-      @movies = Movie.all
+      #if (checked_rating.length() > 0)
+      @movies = Movie.where(rating: @checked_rating)
+      #else
+      #  @movies = Movie.all
+      #end
     end
-    @all_ratings = ['G','PG','PG-13','R']
     
   end
 
   def new
     # default: render 'new' template
   end
+  
 
   def create
     @movie = Movie.create!(movie_params)
